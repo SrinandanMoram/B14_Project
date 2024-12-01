@@ -89,7 +89,7 @@ This project is a web-based application that enables users to upload images for 
   - Histogram of Oriented Gradients (HOG)
   - Color Histograms (RGB and HSV)
 - **Scalers**: RobustScaler for feature normalization
-- **Accuracy**: Achieved **X% accuracy** during testing.
+- **Accuracy**: Achieved **0.80% accuracy** during testing.
 
 ---
 
