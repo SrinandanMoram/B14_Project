@@ -139,7 +139,7 @@
   <div class="container">
     <h1>Welcome to Skin Disease Diagnosis</h1>
     <hr>
-
+  
     <h2>Register Yourself</h2>
     <form method="post">
       {% csrf_token %}
@@ -147,14 +147,20 @@
       <div class="form-group">
         {{ field.label_tag }}
         {{ field }}
-        {% for error in field.errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
+        {% if field.errors %}
+        <ul class="errorlist" style="color: red;">
+          {% for error in field.errors %}
+          <li class="error">{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
       </div>
       {% endfor %}
       <button type="submit">Register</button>
     </form>
-
+    {% if msg %}
+    <p class="error-message">{{ msg }}</p>
+    {% endif %}
     <div class="medical-disclaimer">
       <strong>Medical Disclaimer:</strong> This system is designed to assist in skin disease diagnosis but should not
       replace professional medical advice. Please consult with a healthcare provider for proper medical diagnosis and
