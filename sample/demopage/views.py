@@ -49,21 +49,27 @@ def home(request):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('/profile')
-    
+        return redirect('/profile')  # Redirect if already logged in
+
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            auth_login(request, user)
-            return redirect('/profile')
-        else:
-            return render(request, 'login.html', {
-                'form': AuthenticationForm(),
-                'msg': 'Invalid username or password.'
-            })
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            # Use form's cleaned data to log in the user
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user:
+                auth_login(request, user)  # Log the user in
+                return redirect('/profile')  # Redirect to profile page
+        # Invalid login credentials
+        return render(request, 'login.html', {
+            'form': form,
+            'msg': 'Invalid username or password.'
+        })
+
+    # Render the login form on GET
     return render(request, 'login.html', {'form': AuthenticationForm()})
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
